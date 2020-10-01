@@ -40,6 +40,9 @@ const DEFAULT_AVATAR = `img/avatars/default.png`;
 const map = document.querySelector(`.map`);
 const pinTemplate = document.querySelector(`#pin`).content;
 const pin = pinTemplate.querySelector(`.map__pin`);
+const cardTemplate = document.querySelector("#card").content;
+const card = cardTemplate.querySelector('.map__card');
+const filter = map.querySelector('.map__filters-container');
 
 const getRandomInt = (max) => {
   return Math.floor(Math.random() * Math.floor(max));
@@ -150,9 +153,63 @@ const showPins = (pins) => {
   }
 };
 
+const getCard = (advert) => {
+  const newCard = card.cloneNode(true);
+
+  const title = newCard.querySelector('.popup__title');
+  const address = newCard.querySelector('.popup__text--address');
+  const price = newCard.querySelector('.popup__text--price');
+  const type = newCard.querySelector('.popup__type');
+  const capacity = newCard.querySelector('.popup__text--capacity');
+  const time = newCard.querySelector('.popup__text--time');
+  const features = newCard.querySelector('.popup__features');
+  const description = newCard.querySelector('.popup__description');
+  const photos = newCard.querySelector('.popup__photos');
+  const photoImg = photos.querySelector('.popup__photo');
+  const avatar = newCard.querySelector('.popup__avatar');
+
+  title.textContent = advert.offer.title;
+  address.textContent = advert.offer.address;
+  price.textContent = advert.offer.price + '₽/ночь';
+  type.textContent = advert.offer.type;
+  capacity.textContent = advert.offer.rooms + ' комнаты для ' + advert.offer.guests;
+  time.textContent = 'Заезд после ' + advert.offer.checkin + ' выезд до ' + advert.offer.checkout;
+  description.textContent = advert.offer.description;
+
+  while (features.firstChild) {
+    features.removeChild(features.firstChild);
+  }
+  advert.offer.features.forEach((item) => {
+    const featureElement = document.createElement('li');
+    featureElement.classList.add('popup__feature');
+    featureElement.classList.add('popup__feature--' + item);
+    features.appendChild(featureElement);
+  });
+
+  avatar.src = advert.author.avatar;
+
+  while (photos.firstChild) {
+    photos.removeChild(photos.firstChild);
+  }
+  advert.offer.photos.forEach((item) => {
+    const photoElement = photoImg.cloneNode();
+    photoElement.src = item;
+    photos.appendChild(photoElement);
+  });
+
+  return newCard;
+}
+
+const showCard = (cardPopup) => {
+  map.insertBefore(cardPopup, filter);
+}
+
 fillAvatars();
 showMap();
 const adverts = getAdverts(ADVERT_COUNT, map.clientWidth);
 const pins = getPins(adverts);
 showPins(pins);
+
+const cardFirst = getCard(adverts[0]);
+showCard(cardFirst);
 
