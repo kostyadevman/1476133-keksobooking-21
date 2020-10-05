@@ -229,39 +229,56 @@ const mainPinPressEnterHandler = (evt) => {
   }
 };
 
-const setInitialState = () => {
-  map.classList.add(`map--faded`);
-  form.classList.add(`ad-form--disabled`);
+const deactivateFormElements = () => {
   interactiveElements.forEach((elem) => {
     elem.disabled = true;
   });
+};
+
+
+const deactivateFilterElements = () => {
   interactiveFilterElements.forEach((elem) => {
     elem.disabled = true;
   });
   interactiveFilterFeatures.disabled = true;
+};
+
+const activateFormElements = () => {
+  interactiveElements.forEach((elem) => {
+    elem.disabled = false;
+  });
+};
+
+const activateFilterElements = () => {
+  interactiveFilterElements.forEach((elem) => {
+    elem.disabled = false;
+  });
+  interactiveFilterFeatures.disabled = false;
+};
+
+const setInitialState = () => {
+  map.classList.add(`map--faded`);
+  form.classList.add(`ad-form--disabled`);
+  deactivateFormElements();
+  deactivateFilterElements();
 
   mainPin.addEventListener(`mousedown`, mainPinMouseClickHandler);
   mainPin.addEventListener(`keydown`, mainPinPressEnterHandler);
 
-  address.value = getAddress(mainPin, true);
+  setAddress(mainPin, true);
 };
 
 const setActiveState = () => {
   map.classList.remove(`map--faded`);
   form.classList.remove(`ad-form--disabled`);
-  interactiveElements.forEach((elem) => {
-    elem.disabled = false;
-  });
-  interactiveFilterElements.forEach((elem) => {
-    elem.disabled = false;
-  });
-  interactiveFilterFeatures.disabled = false;
+  activateFormElements();
+  activateFilterElements();
   address.disabled = true;
 
   mainPin.removeEventListener(`mousedown`, mainPinMouseClickHandler);
   mainPin.removeEventListener(`keydown`, mainPinPressEnterHandler);
 
-  address.value = getAddress(mainPin);
+  setAddress(mainPin);
 };
 
 const getAddress = (element, initial = false) => {
@@ -274,6 +291,10 @@ const getAddress = (element, initial = false) => {
 
   return addr;
 };
+
+const setAddress = (elem, initial) => {
+  address.value = getAddress(mainPin, initial);
+}
 
 const validateRoomFitGuest = () => {
   rooms.setCustomValidity(``);
@@ -291,7 +312,7 @@ const validateRoomFitGuest = () => {
 
       return res;
     });
-    rooms.setCustomValidity(`Подходящие значения: ` + messages);
+    rooms.setCustomValidity(`Подходящие значения: ` + messages.join(', '));
   }
 };
 
@@ -303,10 +324,8 @@ capacity.addEventListener(`change`, function () {
   validateRoomFitGuest();
 });
 
-form.addEventListener(`submit`, function (evt) {
+window.addEventListener(`load`, function () {
   validateRoomFitGuest();
-  evt.preventDefault();
-
 });
 
 
