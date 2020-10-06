@@ -294,7 +294,7 @@ const getAddress = (element, initial = false) => {
 
 const setAddress = (elem, initial) => {
   address.value = getAddress(mainPin, initial);
-}
+};
 
 const validateRoomFitGuest = () => {
   rooms.setCustomValidity(``);
@@ -312,7 +312,7 @@ const validateRoomFitGuest = () => {
 
       return res;
     });
-    rooms.setCustomValidity(`Подходящие значения: ` + messages.join(', '));
+    rooms.setCustomValidity(`Подходящие значения: ` + messages.join(`, `));
   }
 };
 
