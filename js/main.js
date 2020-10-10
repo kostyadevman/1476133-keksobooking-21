@@ -1,6 +1,5 @@
 'use strict';
 
-const MOUSE_BUTTON_LEFT = 0;
 const ADVERT_COUNT = 8;
 const AVATAR_COUNT = 8;
 const TYPE = [`palace`, `flat`, `house`, `bungalow`];
@@ -153,23 +152,25 @@ const getAdverts = (count, x) => {
 };
 
 
-const getPin = (advert, id) => {
+const getPin = (advert) => {
   const newPin = pin.cloneNode(true);
   const img = newPin.querySelector(`.map__pin-img`);
 
-  newPin.dataset.uid = id;
   newPin.style.left = advert.location.x + `px`;
   newPin.style.top = advert.location.y + `px`;
   img.src = advert.author.avatar;
   img.alt = advert.offer.title;
 
+  newPin.addEventListener('click', function (evt) {
+    renderCard(getCard(advert));
+  })
   return newPin;
 };
 
 const getPins = (adverts) => {
   const pins = [];
   for (let i = 0; i < adverts.length; i++) {
-    pins.push(getPin(adverts[i], i));
+    pins.push(getPin(adverts[i]));
   }
 
   return pins;
@@ -222,45 +223,27 @@ const removeCardFromMap = () => {
   }
 };
 
-const renderCard = (advert) => {
+const renderCard = (card) => {
   removeCardFromMap();
-  const newCard = getCard(advert);
   map.insertBefore(card, filter);
-  newCard.querySelector(`.popup__close`).addEventListener(`click`, function () {
-    newCard.remove();
+  card.querySelector(`.popup__close`).addEventListener(`click`, function () {
+    card.remove();
   });
   document.addEventListener(`keydown`, function (evt) {
     if (evt.key === `Escape`) {
-      newCard.remove();
+      card.remove();
     }
   });
 };
 
-const mapClickHandler = (evt) => {
-  let uid = ``;
-  if (evt.target.classList.contains(`map__pin`) && !evt.target.classList.contains(`map__pin--main`)) {
-    uid = evt.target.dataset.uid;
-  } else if (evt.target.classList.contains(`map__pin-img`)) {
-    uid = evt.target.parentElement.dataset.uid;
-  }
-  if (uid) {
-    renderCard(adverts[uid]);
-  }
-};
-map.addEventListener(`click`, mapClickHandler);
 
 const mainPinMouseClickHandler = (evt) => {
-  if (evt.button === MOUSE_BUTTON_LEFT) {
-    setActiveState();
-  }
+  window.util.isMouseLeftEvent(evt, setActiveState);
 };
 
-const enterPressHandler = (evt, action) => {
-  if (evt.key === `Enter`) {
-    evt.preventDefault();
-    action();
-  }
-};
+const mainPinEnterPressHandler = (evt) => {
+  window.util.isEnterEvent(evt, setActiveState);
+}
 
 const deactivateFormElements = () => {
   interactiveElements.forEach((elem) => {
@@ -289,17 +272,6 @@ const activateFilterElements = () => {
   interactiveFilterFeatures.disabled = false;
 };
 
-const hideSameAdverts = () => {
-  document.querySelectorAll(`.map__pin:not(.map__pin--main)`).forEach((item) => {
-    item.style.display = `none`;
-  });
-};
-
-const showSameAdverts = () => {
-  document.querySelectorAll(`.map__pin:not(.map__pin--main)`).forEach((item) => {
-    item.style.display = `block`;
-  });
-};
 
 const setInitialState = () => {
   map.classList.add(`map--faded`);
@@ -308,24 +280,28 @@ const setInitialState = () => {
   deactivateFilterElements();
 
   mainPin.addEventListener(`mousedown`, mainPinMouseClickHandler);
-  mainPin.addEventListener(`keydown`, enterPressHandler(setActiveState));
+  mainPin.addEventListener(`keydown`, mainPinEnterPressHandler);
+
 
   setAddress(mainPin, true);
-  hideSameAdverts();
 };
 
+
 const setActiveState = () => {
+  fillAvatars();
+  const adverts = getAdverts(ADVERT_COUNT, map.clientWidth);
+  const pins = getPins(adverts);
+  renderPins(pins);
   map.classList.remove(`map--faded`);
   form.classList.remove(`ad-form--disabled`);
   activateFormElements();
   activateFilterElements();
-  address.disabled = true;
+  address.readOnly = true;
 
   mainPin.removeEventListener(`mousedown`, mainPinMouseClickHandler);
-  mainPin.removeEventListener(`keydown`, enterPressHandler(setActiveState));
+  mainPin.removeEventListener(`keydown`, mainPinEnterPressHandler);
 
   setAddress(mainPin);
-  showSameAdverts();
 };
 
 const getAddress = (element, initial = false) => {
@@ -398,10 +374,5 @@ window.addEventListener(`load`, function () {
   syncCheckTime(formFieldTimeOut, formFieldTimeIn);
 });
 
-
-fillAvatars();
-const adverts = getAdverts(ADVERT_COUNT, map.clientWidth);
-const pins = getPins(adverts);
-renderPins(pins);
 setInitialState();
 
