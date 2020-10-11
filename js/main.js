@@ -167,18 +167,9 @@ const getPin = (advert) => {
   return newPin;
 };
 
-const getPins = (adverts) => {
-  const pins = [];
+const renderPins = (adverts) => {
   for (let i = 0; i < adverts.length; i++) {
-    pins.push(getPin(adverts[i]));
-  }
-
-  return pins;
-};
-
-const renderPins = (pins) => {
-  for (let i = 0; i < pins.length; i++) {
-    map.querySelector(`.map__pins`).appendChild(pins[i]);
+    map.querySelector(`.map__pins`).appendChild(getPin(adverts[i]));
   }
 };
 
@@ -214,8 +205,19 @@ const getCard = (advert) => {
   setFeatures();
   setPhotos();
 
+  newCard.querySelector('.popup__close').addEventListener('click', function (evt) {
+    newCard.remove();
+  });
+
+  document.addEventListener('keydown', function (evt) {
+    window.util.isEscEvent(evt, () => {
+      newCard.remove();
+    })
+  })
+
   return newCard;
 };
+
 const removeCardFromMap = () => {
   const existedCard = map.querySelector(`.map__card`);
   if (existedCard) {
@@ -225,15 +227,7 @@ const removeCardFromMap = () => {
 
 const renderCard = (cardItem) => {
   removeCardFromMap();
-  map.insertBefore(card, filter);
-  cardItem.querySelector(`.popup__close`).addEventListener(`click`, function () {
-    cardItem.remove();
-  });
-  document.addEventListener(`keydown`, function (evt) {
-    if (evt.key === `Escape`) {
-      cardItem.remove();
-    }
-  });
+  map.insertBefore(cardItem, filter);
 };
 
 
@@ -250,7 +244,6 @@ const deactivateFormElements = () => {
     elem.disabled = true;
   });
 };
-
 
 const deactivateFilterElements = () => {
   interactiveFilterElements.forEach((elem) => {
@@ -289,9 +282,7 @@ const setInitialState = () => {
 
 const setActiveState = () => {
   fillAvatars();
-  const adverts = getAdverts(ADVERT_COUNT, map.clientWidth);
-  const pins = getPins(adverts);
-  renderPins(pins);
+  renderPins(getAdverts(ADVERT_COUNT, map.clientWidth));
   map.classList.remove(`map--faded`);
   form.classList.remove(`ad-form--disabled`);
   activateFormElements();
