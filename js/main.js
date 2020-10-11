@@ -205,15 +205,15 @@ const getCard = (advert) => {
   setFeatures();
   setPhotos();
 
-  newCard.querySelector('.popup__close').addEventListener('click', function (evt) {
+  newCard.querySelector(`.popup__close`).addEventListener(`click`, function () {
     newCard.remove();
   });
 
-  document.addEventListener('keydown', function (evt) {
+  document.addEventListener(`keydown`, function (evt) {
     window.util.isEscEvent(evt, () => {
       newCard.remove();
-    })
-  })
+    });
+  });
 
   return newCard;
 };
