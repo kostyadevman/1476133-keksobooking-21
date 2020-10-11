@@ -161,9 +161,9 @@ const getPin = (advert) => {
   img.src = advert.author.avatar;
   img.alt = advert.offer.title;
 
-  newPin.addEventListener('click', function (evt) {
+  newPin.addEventListener(`click`, function () {
     renderCard(getCard(advert));
-  })
+  });
   return newPin;
 };
 
@@ -223,15 +223,15 @@ const removeCardFromMap = () => {
   }
 };
 
-const renderCard = (card) => {
+const renderCard = (cardItem) => {
   removeCardFromMap();
   map.insertBefore(card, filter);
-  card.querySelector(`.popup__close`).addEventListener(`click`, function () {
-    card.remove();
+  cardItem.querySelector(`.popup__close`).addEventListener(`click`, function () {
+    cardItem.remove();
   });
   document.addEventListener(`keydown`, function (evt) {
     if (evt.key === `Escape`) {
-      card.remove();
+      cardItem.remove();
     }
   });
 };
@@ -243,7 +243,7 @@ const mainPinMouseClickHandler = (evt) => {
 
 const mainPinEnterPressHandler = (evt) => {
   window.util.isEnterEvent(evt, setActiveState);
-}
+};
 
 const deactivateFormElements = () => {
   interactiveElements.forEach((elem) => {
