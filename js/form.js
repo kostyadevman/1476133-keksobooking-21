@@ -7,12 +7,7 @@
     3: [`1`, `2`, `3`],
     100: [`0`]
   };
-  const MAIN_PIN = {
-    widthInit: 95,
-    heightInit: 95,
-    width: 95,
-    height: 128
-  };
+
   const priceMap = {flat: 1000, bungalow: 0, house: 5000, palace: 10000};
   const map = document.querySelector(`.map`);
   const form = document.querySelector(`.ad-form`);
@@ -60,14 +55,20 @@
   };
 
   const getAddress = (element, initial = false) => {
-    let addr = ``;
+    let coord = {
+      x: ``,
+      y: ``
+    };
+
+    coord.x = Math.round(element.offsetLeft + window.map.MAIN_PIN.width / 2);
+
     if (initial) {
-      addr = Math.round(element.offsetTop + MAIN_PIN.heightInit / 2) + `, ` + Math.round(element.offsetLeft + MAIN_PIN.widthInit / 2);
+      coord.y = Math.round(element.offsetTop + window.map.MAIN_PIN.heightInit / 2);
     } else {
-      addr = element.offsetTop + MAIN_PIN.height + `, ` + Math.round(element.offsetLeft + MAIN_PIN.width / 2);
+      coord.y = element.offsetTop + window.map.MAIN_PIN.height;
     }
 
-    return addr;
+    return coord.x + `, ` + coord.y;
   };
 
   const setAddress = (elem, initial) => {
