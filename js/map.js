@@ -32,6 +32,7 @@
 
   const mainPinMoveHandler = (evt) => {
     evt.preventDefault();
+
     let startCoords = {
       x: evt.clientX,
       y: evt.clientY
@@ -64,6 +65,7 @@
         }
       };
       movePin();
+
     };
 
     const onMouseUp = function (upEvt) {
@@ -85,6 +87,7 @@
     mainPin.addEventListener(`mousedown`, mainPinMouseClickHandler);
     mainPin.addEventListener(`keydown`, mainPinEnterPressHandler);
     window.form.setAddress(mainPin, true);
+    mainPin.addEventListener(`mousedown`, mainPinMoveHandler);
   };
 
 
@@ -99,7 +102,6 @@
     mainPin.removeEventListener(`mousedown`, mainPinMouseClickHandler);
     mainPin.removeEventListener(`keydown`, mainPinEnterPressHandler);
     window.form.setAddress(mainPin);
-    mainPin.addEventListener(`mousedown`, mainPinMoveHandler);
   };
 
   window.map = {
