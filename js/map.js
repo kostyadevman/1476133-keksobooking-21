@@ -79,6 +79,18 @@
     document.addEventListener(`mouseup`, onMouseUp);
   };
 
+  const errorHandler = function (errorMessage) {
+    const node = document.createElement(`div`);
+    node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: red;`;
+    node.style.position = `absolute`;
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = `30px`;
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement(`afterbegin`, node);
+  };
+
   const setInitialState = () => {
     map.classList.add(`map--faded`);
     form.classList.add(`ad-form--disabled`);
@@ -93,7 +105,8 @@
 
   const setActiveState = () => {
     window.data.fillAvatars();
-    window.pin.renderPins(window.data.getAdverts(window.data.ADVERT_COUNT, map.clientWidth));
+    // window.pin.renderPins(window.data.getAdverts(window.data.ADVERT_COUNT, map.clientWidth));
+    window.backend.load(window.pin.renderPins, errorHandler);
     map.classList.remove(`map--faded`);
     form.classList.remove(`ad-form--disabled`);
     window.form.activateFormElements();
