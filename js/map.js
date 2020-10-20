@@ -15,12 +15,19 @@
   const MAIN_PIN = {
     heightInit: 65,
     width: 65,
-    height: 84
+    height: 84,
+    initialTop: 375,
+    initialLeft: 570,
   };
 
   const map = document.querySelector(`.map`);
   const form = document.querySelector(`.ad-form`);
   const mainPin = map.querySelector(`.map__pin--main`);
+
+  const mainPinSetInitial = () => {
+    mainPin.style.top = MAIN_PIN.initialTop + `px`;
+    mainPin.style.left = MAIN_PIN.initialLeft + `px`;
+  };
 
   const mainPinMouseClickHandler = (evt) => {
     window.util.isMouseLeftEvent(evt, setActiveState);
@@ -98,13 +105,17 @@
     window.form.deactivateFilterElements();
     mainPin.addEventListener(`mousedown`, mainPinMouseClickHandler);
     mainPin.addEventListener(`keydown`, mainPinEnterPressHandler);
-    window.form.setAddress(mainPin, true);
     mainPin.addEventListener(`mousedown`, mainPinMoveHandler);
+    window.pin.removePins();
+    window.card.remove();
+    window.form.setInitial();
+    mainPinSetInitial();
+    window.form.setAddress(mainPin, true);
   };
 
 
   const setActiveState = () => {
-    window.data.fillAvatars();
+    // window.data.fillAvatars();
     // window.pin.renderPins(window.data.getAdverts(window.data.ADVERT_COUNT, map.clientWidth));
     window.backend.load(window.pin.renderPins, errorHandler);
     map.classList.remove(`map--faded`);

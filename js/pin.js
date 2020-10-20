@@ -25,7 +25,12 @@
       map.querySelector(`.map__pins`).appendChild(getPin(adverts[i]));
     }
   };
+  const removePins = () => {
+    map.querySelectorAll(`.map__pin:not(.map__pin--main)`).forEach((e) => e.parentNode.removeChild(e));
+  };
+
   window.pin = {
-    renderPins
+    renderPins,
+    removePins
   };
 })();
