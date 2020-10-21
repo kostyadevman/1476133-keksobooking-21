@@ -15,6 +15,7 @@
   const interactiveElements = form.querySelectorAll(`.ad-form__element`);
   const interactiveFilterElements = formFilter.querySelectorAll(`.map__filter`);
   const interactiveFilterFeatures = formFilter.querySelector(`.map__features`);
+  const formFieldTitle = form.querySelector(`.ad-form__title`);
   const formFieldAddress = form.querySelector(`.ad-form__address`);
   const formFieldRooms = form.querySelector(`.add-form__room`);
   const formFieldCapacity = form.querySelector(`.ad-form__capacity`);
@@ -22,7 +23,11 @@
   const formFieldPrice = form.querySelector(`.ad-form__price`);
   const formFieldTimeIn = form.querySelector(`.ad-form__timein`);
   const formFieldTimeOut = form.querySelector(`.ad-form__timeout`);
+  const formFieldDescription = form.querySelector(`.ad-form__description`);
   const mainPin = map.querySelector(`.map__pin--main`);
+  const reset = form.querySelector(`.ad-form__reset`);
+  const successTemplate = document.querySelector(`#success`).content;
+  const errorTemplate = document.querySelector(`#error`).content;
 
   formFieldType.addEventListener(`change`, function () {
     setMinPrice();
@@ -120,13 +125,76 @@
     });
     interactiveFilterFeatures.disabled = false;
   };
-  document.addEventListener(`load`, function () {
-    window.form.setMinPrice();
-    window.form.validateRoomFitGuest();
-    window.form.syncCheckTime(window.form.formFieldTimeOut, window.form.formFieldTimeIn);
-  });
+
+  const setFromInitialState = () => {
+    clearForm();
+    setMinPrice();
+    syncCheckTime(formFieldTimeIn, formFieldTimeOut);
+    validateRoomFitGuest();
+  };
+
+  const successHandler = () => {
+    window.map.setInitialState();
+    const successMessage = successTemplate.querySelector(`.success`).cloneNode(true);
+    document.querySelector(`main`).appendChild(successMessage);
+
+    successMessage.addEventListener(`click`, function (evt) {
+      evt.preventDefault();
+      successMessage.remove();
+    });
+
+    document.addEventListener(`keydown`, function (evt) {
+      window.util.isEscEvent(evt, function () {
+        evt.preventDefault();
+        successMessage.remove();
+      });
+    });
+  };
+
+  const errorHandler = (message) => {
+    const error = errorTemplate.querySelector(`.error`).cloneNode(true);
+    const closeError = error.querySelector(`.error__button`);
+
+    error.querySelector(`.error__message`).textContent = message;
+    document.querySelector(`main`).appendChild(error);
+
+    closeError.addEventListener(`click`, function (evt) {
+      evt.preventDefault();
+      error.remove();
+    });
+
+    error.addEventListener(`click`, function (evt) {
+      evt.preventDefault();
+      error.remove();
+    });
+
+    document.addEventListener(`keydown`, function (evt) {
+      window.util.isEscEvent(evt, function () {
+        error.remove();
+      });
+    });
+  };
+
+  const formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    const formData = new FormData(form);
+    window.backend.save(formData, successHandler, errorHandler);
+  };
+
+  form.addEventListener(`submit`, formSubmitHandler);
+
+  const clearForm = () => {
+    formFieldTitle.value = ``;
+    formFieldAddress.value = ``;
+    formFieldPrice.value = ``;
+    formFieldDescription.value = ``;
+  };
+
+  reset.addEventListener(`click`, clearForm);
+
 
   window.form = {
+    setInitial: setFromInitialState,
     setAddress,
     formFieldAddress,
     formFieldTimeIn,
