@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  const MAX_ADVERTS = 5;
   const map = document.querySelector(`.map`);
   const pinTemplate = document.querySelector(`#pin`).content;
   const pin = pinTemplate.querySelector(`.map__pin`);
@@ -12,7 +13,9 @@
     newPin.style.left = advert.location.x + `px`;
     newPin.style.top = advert.location.y + `px`;
     img.src = advert.author.avatar;
-    img.alt = advert.offer.title;
+    if (`offer` in advert) {
+      img.alt = advert.offer.title;
+    }
 
     newPin.addEventListener(`click`, function () {
       window.card.render(window.card.get(advert));
@@ -21,7 +24,11 @@
   };
 
   const renderPins = (adverts) => {
-    for (let i = 0; i < adverts.length; i++) {
+    const advertCount = adverts.length > MAX_ADVERTS ?
+      MAX_ADVERTS :
+      adverts.length;
+
+    for (let i = 0; i < advertCount; i++) {
       map.querySelector(`.map__pins`).appendChild(getPin(adverts[i]));
     }
   };

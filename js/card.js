@@ -29,16 +29,18 @@
       newCard.querySelector(`.popup__photos`).firstElementChild.remove();
     };
 
-    newCard.querySelector(`.popup__title`).textContent = advert.offer.title;
-    newCard.querySelector(`.popup__text--address`).textContent = advert.offer.address;
-    newCard.querySelector(`.popup__text--price`).textContent = advert.offer.price + `₽/ночь`;
-    newCard.querySelector(`.popup__type`).textContent = typeMap[advert.offer.type];
-    newCard.querySelector(`.popup__text--capacity`).textContent = advert.offer.rooms + ` комнаты для ` + advert.offer.guests;
-    newCard.querySelector(`.popup__text--time`).textContent = `Заезд после ` + advert.offer.checkin + ` выезд до ` + advert.offer.checkout;
-    newCard.querySelector(`.popup__description`).textContent = advert.offer.description;
-    newCard.querySelector(`.popup__avatar`).src = advert.author.avatar;
-    setFeatures();
-    setPhotos();
+    if (`offer` in advert) {
+      newCard.querySelector(`.popup__title`).textContent = advert.offer.title;
+      newCard.querySelector(`.popup__text--address`).textContent = advert.offer.address;
+      newCard.querySelector(`.popup__text--price`).textContent = advert.offer.price + `₽/ночь`;
+      newCard.querySelector(`.popup__type`).textContent = typeMap[advert.offer.type];
+      newCard.querySelector(`.popup__text--capacity`).textContent = advert.offer.rooms + ` комнаты для ` + advert.offer.guests;
+      newCard.querySelector(`.popup__text--time`).textContent = `Заезд после ` + advert.offer.checkin + ` выезд до ` + advert.offer.checkout;
+      newCard.querySelector(`.popup__description`).textContent = advert.offer.description;
+      newCard.querySelector(`.popup__avatar`).src = advert.author.avatar;
+      setFeatures();
+      setPhotos();
+    }
 
     newCard.querySelector(`.popup__close`).addEventListener(`click`, function () {
       newCard.remove();
