@@ -80,10 +80,10 @@
     window.form.activateFilterElements();
   };
 
-  formFilters.addEventListener(`change`, function (evt) {
+  formFilters.addEventListener(`change`, window.debounce((evt) => {
     window.card.remove();
     updateAdverts(evt);
-  });
+  }));
 
   window.filter = {
     onLoad
