@@ -20,6 +20,7 @@
   const price = formFilters.querySelector(`#housing-price`);
   const rooms = formFilters.querySelector(`#housing-rooms`);
   const guests = formFilters.querySelector(`#housing-guests`);
+  const features = formFilters.querySelector(`.map__features`);
 
 
   const onLoad = (data) => {
@@ -51,11 +52,20 @@
       advert.offer.guests.toString() === guests.options[guests.selectedIndex].value;
   };
 
+  const filterFeatures = (featureList) => {
+    const featureSelected = [];
+    features.querySelectorAll(`.map__checkbox:checked`).forEach((item) => {
+      featureSelected.push(item.value);
+    });
+    return featureSelected.every((item) => featureList.includes(item));
+  };
+
   const filterAdvert = (advert) => {
     return filterType(advert) &&
       filterRooms(advert) &&
       filterPrice(advert) &&
-      filterGuests(advert);
+      filterGuests(advert) &&
+      filterFeatures(advert.offer.features);
   };
 
   const filterAdverts = () => {
