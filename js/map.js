@@ -113,15 +113,12 @@
     window.form.setAddress(mainPin, true);
   };
 
-
   const setActiveState = () => {
-    // window.data.fillAvatars();
-    // window.pin.renderPins(window.data.getAdverts(window.data.ADVERT_COUNT, map.clientWidth));
-    window.backend.load(window.pin.renderPins, errorHandler);
+    window.backend.load(window.filter.onLoad, errorHandler);
     map.classList.remove(`map--faded`);
     form.classList.remove(`ad-form--disabled`);
     window.form.activateFormElements();
-    window.form.activateFilterElements();
+
     window.form.formFieldAddress.readOnly = true;
     mainPin.removeEventListener(`mousedown`, mainPinMouseClickHandler);
     mainPin.removeEventListener(`keydown`, mainPinEnterPressHandler);

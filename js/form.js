@@ -190,7 +190,9 @@
     formFieldDescription.value = ``;
   };
 
-  reset.addEventListener(`click`, clearForm);
+  reset.addEventListener(`click`, () => {
+    window.map.setInitialState();
+  });
 
 
   window.form = {
