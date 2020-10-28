@@ -1,6 +1,6 @@
 'use strict';
 
-
+const SELECTED_INDEX_ANY = 0;
 const PRICE_MIDDLE = 10000;
 const PRICE_HIGH = 50000;
 const priceMap = {
@@ -26,6 +26,7 @@ const features = formFilters.querySelector(`.map__features`);
 const onLoad = (data) => {
   adverts = data;
   updateAdverts();
+  setFilterInitialState();
 };
 
 const isAnySelected = (field) => {
@@ -84,6 +85,19 @@ formFilters.addEventListener(`change`, window.debounce((evt) => {
   window.card.remove();
   updateAdverts(evt);
 }));
+
+const setFilterInitialState = () => {
+  formFilters.querySelectorAll(`.map__filter`).forEach(
+      (item) => {
+        item.selectedIndex = SELECTED_INDEX_ANY;
+      });
+
+  formFilters.querySelectorAll(`.map__checkbox `).forEach(
+      (item) => {
+        item.checked = false;
+      }
+  );
+};
 
 window.filter = {
   onLoad
