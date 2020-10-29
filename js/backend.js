@@ -1,61 +1,61 @@
 'use strict';
 
-(function () {
-  const URL = `https://21.javascript.pages.academy/keksobooking/data`;
-  const URL_SAVE = `https://21.javascript.pages.academy/keksobooking`;
-  const StatusCode = {
-    OK: 200
-  };
-  const TIMEOUT_IN_MS = 10000;
 
-  const load = (onLoad, onError) => {
-    const xhr = new XMLHttpRequest();
-    xhr.responseType = `json`;
+const URL_ADVERTS = `https://21.javascript.pages.academy/keksobooking/data`;
+const URL_SAVE = `https://21.javascript.pages.academy/keksobooking`;
+const StatusCode = {
+  OK: 200
+};
+const TIMEOUT_IN_MS = 10000;
 
-    xhr.addEventListener(`load`, function () {
-      if (xhr.status === StatusCode.OK) {
-        onLoad(xhr.response);
-      } else {
-        onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
-      }
-    });
-    xhr.addEventListener(`error`, function () {
-      onError(`Произошла ошибка соединения`);
-    });
-    xhr.addEventListener(`timeout`, function () {
-      onError(`Запрос не успел выполниться за ` + xhr.timeout + `мс`);
-    });
+const load = (onLoad, onError) => {
+  const xhr = new XMLHttpRequest();
+  xhr.responseType = `json`;
 
-    xhr.timeout = TIMEOUT_IN_MS;
+  xhr.addEventListener(`load`, function () {
+    if (xhr.status === StatusCode.OK) {
+      onLoad(xhr.response);
+    } else {
+      onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
+    }
+  });
+  xhr.addEventListener(`error`, function () {
+    onError(`Произошла ошибка соединения`);
+  });
+  xhr.addEventListener(`timeout`, function () {
+    onError(`Запрос не успел выполниться за ` + xhr.timeout + `мс`);
+  });
 
-    xhr.open(`GET`, URL);
-    xhr.send();
-  };
+  xhr.timeout = TIMEOUT_IN_MS;
 
-  const save = (data, onLoad, onError) => {
-    const xhr = new XMLHttpRequest();
+  xhr.open(`GET`, URL_ADVERTS);
+  xhr.send();
+};
 
-    xhr.addEventListener(`load`, function () {
-      if (xhr.status === StatusCode.OK) {
-        onLoad(xhr.response);
-      } else {
-        onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
-      }
-    });
-    xhr.addEventListener(`error`, function () {
-      onError(`Произошла ошибка соединения`);
-    });
-    xhr.addEventListener(`timeout`, function () {
-      onError(`Запрос не успел выполниться за ` + xhr.timeout + `мс`);
-    });
+const save = (data, onLoad, onError) => {
+  const xhr = new XMLHttpRequest();
 
-    xhr.timeout = TIMEOUT_IN_MS;
-    xhr.open(`POST`, URL_SAVE);
-    xhr.send(data);
+  xhr.addEventListener(`load`, function () {
+    if (xhr.status === StatusCode.OK) {
+      onLoad(xhr.response);
+    } else {
+      onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
+    }
+  });
+  xhr.addEventListener(`error`, function () {
+    onError(`Произошла ошибка соединения`);
+  });
+  xhr.addEventListener(`timeout`, function () {
+    onError(`Запрос не успел выполниться за ` + xhr.timeout + `мс`);
+  });
 
-  };
-  window.backend = {
-    load,
-    save
-  };
-})();
+  xhr.timeout = TIMEOUT_IN_MS;
+  xhr.open(`POST`, URL_SAVE);
+  xhr.send(data);
+
+};
+window.backend = {
+  load,
+  save
+};
+
