@@ -27,6 +27,20 @@ const mainPin = map.querySelector(`.map__pin--main`);
 const reset = form.querySelector(`.ad-form__reset`);
 const successTemplate = document.querySelector(`#success`).content;
 const errorTemplate = document.querySelector(`#error`).content;
+const avatar = form.querySelector(`.ad-form__field input[type=file]`);
+const avatarPreview = form.querySelector(`.ad-form-header__preview img`);
+const photo = form.querySelector(`.ad-form__upload input[type=file]`);
+const photoPreview = form.querySelector(`.ad-form__photo`);
+
+avatar.addEventListener(`change`, () => {
+  window.file.preview(avatar, avatarPreview);
+});
+
+photo.addEventListener(`change`, () => {
+  const img = document.createElement(`img`);
+  photoPreview.appendChild(img);
+  window.file.preview(photo, img);
+});
 
 formFieldType.addEventListener(`change`, function () {
   setMinPrice();
