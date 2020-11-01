@@ -62,7 +62,7 @@ const filterFeatures = (featureList) => {
 };
 
 const hasOfferKey = (advert) => {
-  return advert.hasOwnProperty('offer');
+  return advert.hasOwnProperty(`offer`);
 };
 
 const filterAdvert = (advert) => {
