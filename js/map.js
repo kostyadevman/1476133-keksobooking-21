@@ -100,12 +100,12 @@ const errorHandler = function (errorMessage) {
 const setInitialState = () => {
   map.classList.add(`map--faded`);
   form.classList.add(`ad-form--disabled`);
-  window.form.deactivateFormElements();
+  window.form.deactivateElements();
   window.form.deactivateFilterElements();
   mainPin.addEventListener(`mousedown`, mainPinMouseClickHandler);
   mainPin.addEventListener(`keydown`, mainPinEnterPressHandler);
   mainPin.addEventListener(`mousedown`, mainPinMoveHandler);
-  window.pin.removePins();
+  window.pin.removeAll();
   window.card.remove();
   window.form.setInitial();
   mainPinSetInitial();
@@ -116,9 +116,9 @@ const setActiveState = () => {
   window.backend.load(window.filter.onLoad, errorHandler);
   map.classList.remove(`map--faded`);
   form.classList.remove(`ad-form--disabled`);
-  window.form.activateFormElements();
+  window.form.activateElements();
 
-  window.form.formFieldAddress.readOnly = true;
+  window.form.fieldAddress.readOnly = true;
   mainPin.removeEventListener(`mousedown`, mainPinMouseClickHandler);
   mainPin.removeEventListener(`keydown`, mainPinEnterPressHandler);
   window.form.setAddress(mainPin);

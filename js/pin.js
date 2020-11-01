@@ -36,7 +36,7 @@ const removePins = () => {
 };
 
 window.pin = {
-  renderPins,
-  removePins
+  renderAll: renderPins,
+  removeAll: removePins
 };
 

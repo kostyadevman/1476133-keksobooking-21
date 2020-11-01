@@ -81,8 +81,8 @@ const filterAdverts = () => {
 };
 
 const updateAdverts = () => {
-  window.pin.removePins();
-  window.pin.renderPins(filterAdverts());
+  window.pin.removeAll();
+  window.pin.renderAll(filterAdverts());
   window.form.activateFilterElements();
 };
 

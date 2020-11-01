@@ -209,17 +209,12 @@ reset.addEventListener(`click`, () => {
 
 
 window.form = {
+  fieldAddress: formFieldAddress,
   setInitial: setFromInitialState,
-  setAddress,
-  formFieldAddress,
-  formFieldTimeIn,
-  formFieldTimeOut,
-  setMinPrice,
-  validateRoomFitGuest,
-  syncCheckTime,
-  activateFormElements,
-  deactivateFormElements,
+  activateElements: activateFormElements,
+  deactivateElements: deactivateFormElements,
   activateFilterElements,
-  deactivateFilterElements
+  deactivateFilterElements,
+  setAddress
 };
 
