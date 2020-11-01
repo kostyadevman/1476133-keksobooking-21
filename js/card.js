@@ -9,23 +9,45 @@ const filter = map.querySelector(`.map__filters-container`);
 
 const getCard = (advert) => {
   const newCard = card.cloneNode(true);
+
+  const hideItem = (item) => {
+    item.classList.add(`visually-hidden`);
+  };
+
+  const hideEmpty = () => {
+    newCard.querySelectorAll(`.popup__text, .popup__title, .popup__description`).forEach(
+        (item) => {
+          if (item.textContent === ``) {
+            hideItem(item);
+          }
+        }
+    );
+  };
   const setFeatures = () => {
-    newCard.querySelector(`.popup__features`).innerHTML = ``;
-    advert.offer.features.forEach((item) => {
-      const featureElement = document.createElement(`li`);
-      featureElement.classList.add(`popup__feature`);
-      featureElement.classList.add(`popup__feature--` + item);
-      newCard.querySelector(`.popup__features`).appendChild(featureElement);
-    });
+    if (advert.offer.features.length === 0) {
+      hideItem(newCard.querySelector(`.popup__features`));
+    } else {
+      newCard.querySelector(`.popup__features`).innerHTML = ``;
+      advert.offer.features.forEach((item) => {
+        const featureElement = document.createElement(`li`);
+        featureElement.classList.add(`popup__feature`);
+        featureElement.classList.add(`popup__feature--` + item);
+        newCard.querySelector(`.popup__features`).appendChild(featureElement);
+      });
+    }
   };
 
   const setPhotos = () => {
-    advert.offer.photos.forEach((item) => {
-      const photoElement = newCard.querySelector(`.popup__photo`).cloneNode();
-      photoElement.src = item;
-      newCard.querySelector(`.popup__photos`).appendChild(photoElement);
-    });
-    newCard.querySelector(`.popup__photos`).firstElementChild.remove();
+    if (advert.offer.photos.length === 0) {
+      hideItem(newCard.querySelector(`.popup__photos`));
+    } else {
+      advert.offer.photos.forEach((item) => {
+        const photoElement = newCard.querySelector(`.popup__photo`).cloneNode();
+        photoElement.src = item;
+        newCard.querySelector(`.popup__photos`).appendChild(photoElement);
+      });
+      newCard.querySelector(`.popup__photos`).firstElementChild.remove();
+    }
   };
 
   newCard.querySelector(`.popup__title`).textContent = advert.offer.title;
@@ -36,6 +58,7 @@ const getCard = (advert) => {
   newCard.querySelector(`.popup__text--time`).textContent = `Заезд после ` + advert.offer.checkin + ` выезд до ` + advert.offer.checkout;
   newCard.querySelector(`.popup__description`).textContent = advert.offer.description;
   newCard.querySelector(`.popup__avatar`).src = advert.author.avatar;
+  hideEmpty();
   setFeatures();
   setPhotos();
 

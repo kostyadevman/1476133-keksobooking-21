@@ -61,8 +61,13 @@ const filterFeatures = (featureList) => {
   return featureSelected.every((item) => featureList.includes(item));
 };
 
+const hasOfferKey = (advert) => {
+  return advert.hasOwnProperty('offer');
+};
+
 const filterAdvert = (advert) => {
-  return filterType(advert) &&
+  return hasOfferKey(advert) &&
+    filterType(advert) &&
     filterRooms(advert) &&
     filterPrice(advert) &&
     filterGuests(advert) &&
