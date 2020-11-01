@@ -5,14 +5,14 @@ const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
 const getPreview = (choseElem, previewElem) => {
   const file = choseElem.files[0];
   const fileName = file.name.toLowerCase();
-  const matches = FILE_TYPES.some(function (it) {
+  const matches = FILE_TYPES.some((it) => {
     return fileName.endsWith(it);
   });
 
   if (matches) {
     const reader = new FileReader();
 
-    reader.addEventListener(`load`, function () {
+    reader.addEventListener(`load`, () => {
       previewElem.src = reader.result;
     });
 

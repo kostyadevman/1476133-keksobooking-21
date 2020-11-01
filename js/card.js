@@ -62,11 +62,11 @@ const getCard = (advert) => {
   setFeatures();
   setPhotos();
 
-  newCard.querySelector(`.popup__close`).addEventListener(`click`, function () {
+  newCard.querySelector(`.popup__close`).addEventListener(`click`, () => {
     newCard.remove();
   });
 
-  document.addEventListener(`keydown`, function (evt) {
+  document.addEventListener(`keydown`, (evt) => {
     window.util.isEscEvent(evt, () => {
       newCard.remove();
     });

@@ -44,7 +44,7 @@ const mainPinMoveHandler = (evt) => {
     y: evt.clientY
   };
 
-  const onMouseMove = function (moveEvt) {
+  const onMouseMove = (moveEvt) => {
     moveEvt.preventDefault();
 
     const shift = {
@@ -74,7 +74,7 @@ const mainPinMoveHandler = (evt) => {
 
   };
 
-  const onMouseUp = function (upEvt) {
+  const onMouseUp = (upEvt) => {
     upEvt.preventDefault();
     window.form.setAddress(mainPin, false);
     document.removeEventListener(`mousemove`, onMouseMove);
@@ -85,7 +85,7 @@ const mainPinMoveHandler = (evt) => {
   document.addEventListener(`mouseup`, onMouseUp);
 };
 
-const errorHandler = function (errorMessage) {
+const errorHandler = (errorMessage) => {
   const node = document.createElement(`div`);
   node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: red;`;
   node.style.position = `absolute`;

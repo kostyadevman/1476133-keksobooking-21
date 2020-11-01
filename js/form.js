@@ -42,15 +42,15 @@ photo.addEventListener(`change`, () => {
   window.file.preview(photo, img);
 });
 
-formFieldType.addEventListener(`change`, function () {
+formFieldType.addEventListener(`change`, () => {
   setMinPrice();
 });
 
-formFieldRooms.addEventListener(`change`, function () {
+formFieldRooms.addEventListener(`change`, () => {
   validateRoomFitGuest();
 });
 
-formFieldCapacity.addEventListener(`change`, function () {
+formFieldCapacity.addEventListener(`change`, () => {
   validateRoomFitGuest();
 });
 
@@ -58,11 +58,11 @@ const syncCheckTime = (major, minor) => {
   minor.options[major.selectedIndex].selected = true;
 };
 
-formFieldTimeOut.addEventListener(`change`, function () {
+formFieldTimeOut.addEventListener(`change`, () => {
   syncCheckTime(formFieldTimeOut, formFieldTimeIn);
 });
 
-formFieldTimeIn.addEventListener(`change`, function () {
+formFieldTimeIn.addEventListener(`change`, () => {
   syncCheckTime(formFieldTimeIn, formFieldTimeOut);
 });
 
@@ -151,13 +151,13 @@ const successHandler = () => {
   const successMessage = successTemplate.querySelector(`.success`).cloneNode(true);
   document.querySelector(`main`).appendChild(successMessage);
 
-  successMessage.addEventListener(`click`, function (evt) {
+  successMessage.addEventListener(`click`, (evt) => {
     evt.preventDefault();
     successMessage.remove();
   });
 
-  document.addEventListener(`keydown`, function (evt) {
-    window.util.isEscEvent(evt, function () {
+  document.addEventListener(`keydown`, (evt) => {
+    window.util.isEscEvent(evt, () => {
       evt.preventDefault();
       successMessage.remove();
     });
@@ -171,18 +171,18 @@ const errorHandler = (message) => {
   error.querySelector(`.error__message`).textContent = message;
   document.querySelector(`main`).appendChild(error);
 
-  closeError.addEventListener(`click`, function (evt) {
+  closeError.addEventListener(`click`, (evt) => {
     evt.preventDefault();
     error.remove();
   });
 
-  error.addEventListener(`click`, function (evt) {
+  error.addEventListener(`click`, (evt) => {
     evt.preventDefault();
     error.remove();
   });
 
-  document.addEventListener(`keydown`, function (evt) {
-    window.util.isEscEvent(evt, function () {
+  document.addEventListener(`keydown`, (evt) => {
+    window.util.isEscEvent(evt, () => {
       error.remove();
     });
   });

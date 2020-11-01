@@ -16,7 +16,7 @@ const getPin = (advert) => {
     img.alt = advert.offer.title;
   }
 
-  newPin.addEventListener(`click`, function () {
+  newPin.addEventListener(`click`, () => {
     window.card.render(window.card.get(advert));
   });
   return newPin;

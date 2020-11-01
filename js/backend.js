@@ -12,17 +12,17 @@ const load = (onLoad, onError) => {
   const xhr = new XMLHttpRequest();
   xhr.responseType = `json`;
 
-  xhr.addEventListener(`load`, function () {
+  xhr.addEventListener(`load`, () => {
     if (xhr.status === StatusCode.OK) {
       onLoad(xhr.response);
     } else {
       onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
     }
   });
-  xhr.addEventListener(`error`, function () {
+  xhr.addEventListener(`error`, () => {
     onError(`Произошла ошибка соединения`);
   });
-  xhr.addEventListener(`timeout`, function () {
+  xhr.addEventListener(`timeout`, () => {
     onError(`Запрос не успел выполниться за ` + xhr.timeout + `мс`);
   });
 
@@ -35,17 +35,17 @@ const load = (onLoad, onError) => {
 const save = (data, onLoad, onError) => {
   const xhr = new XMLHttpRequest();
 
-  xhr.addEventListener(`load`, function () {
+  xhr.addEventListener(`load`, () => {
     if (xhr.status === StatusCode.OK) {
       onLoad(xhr.response);
     } else {
       onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
     }
   });
-  xhr.addEventListener(`error`, function () {
+  xhr.addEventListener(`error`, () => {
     onError(`Произошла ошибка соединения`);
   });
-  xhr.addEventListener(`timeout`, function () {
+  xhr.addEventListener(`timeout`, () => {
     onError(`Запрос не успел выполниться за ` + xhr.timeout + `мс`);
   });
 
