@@ -1,6 +1,8 @@
 'use strict';
 
 const MOUSE_BUTTON_LEFT = 0;
+const KEY_ESCAPE = `Escape`;
+const KEY_ENTER = `Enter`;
 
 const getRandomInt = (max) => {
   return Math.floor(Math.random() * Math.floor(max));
@@ -11,14 +13,14 @@ const getRandomArbitrary = (min, max) => {
 };
 
 const isEscEvent = (evt, action) => {
-  if (evt.key === `Escape`) {
+  if (evt.key === KEY_ESCAPE) {
     evt.preventDefault();
     action();
   }
 };
 
 const isEnterEvent = (evt, action) => {
-  if (evt.key === `Enter`) {
+  if (evt.key === KEY_ENTER) {
     evt.preventDefault();
     action();
   }

@@ -38,9 +38,9 @@ avatar.addEventListener(`change`, () => {
 
 photo.addEventListener(`change`, () => {
   const img = document.createElement(`img`);
-  img.style.width = '70px';
-  img.style.height = '70px';
-  img.setAttribute('alt', 'Фотография жилья');
+  img.style.width = `70px`;
+  img.style.height = `70px`;
+  img.setAttribute(`alt`, `Фотография жилья`);
   photoPreview.appendChild(img);
   window.file.preview(photo, img);
 });
@@ -206,8 +206,8 @@ const clearForm = () => {
   formFieldAddress.value = ``;
   formFieldPrice.value = ``;
   formFieldDescription.value = ``;
-  avatarPreview.src = 'img/muffin-grey.svg';
-  photoPreview.innerHTML = '';
+  avatarPreview.src = `img/muffin-grey.svg`;
+  photoPreview.innerHTML = ``;
 };
 
 reset.addEventListener(`click`, () => {
